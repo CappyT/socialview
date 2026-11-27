@@ -7,3 +7,10 @@ local.properties
 captures/
 .externalNativeBuild/
 .cxx/
+key.properties
+*.jks
+*.keystore
+*.p12
+.env
+.serena/
+.claude/
