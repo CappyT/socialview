@@ -1,0 +1,1050 @@
+{
+ "data": {
+  "postInfoById": {
+   "id": "t3_1aaaaa1",
+   "commentForest": {
+    "trees": [
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 211,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c1",
+       "createdAt": "2026-11-27T05:09:12.181000+0000",
+       "score": 11123,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user1"
+       },
+       "content": {
+        "markdown": "Comment 1 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c1",
+      "childCount": 2,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c2",
+       "createdAt": "2026-11-27T05:15:50.460000+0000",
+       "score": 1046,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user2"
+       },
+       "content": {
+        "markdown": "Comment 2 of the fixture, at depth 1."
+       }
+      }
+     },
+     {
+      "depth": 2,
+      "parentId": "t1_c2",
+      "childCount": 0,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c3",
+       "createdAt": "2026-11-27T06:55:29.268000+0000",
+       "score": 195,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": true,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user3"
+       },
+       "content": {
+        "markdown": "Comment 3 of the fixture, at depth 2."
+       }
+      }
+     },
+     {
+      "depth": 3,
+      "parentId": "t1_c3",
+      "childCount": 0,
+      "more": {
+       "count": 0,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": true
+      },
+      "node": null
+     },
+     {
+      "depth": 2,
+      "parentId": "t1_c2",
+      "childCount": 1,
+      "more": {
+       "count": 1,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c1",
+      "childCount": 208,
+      "more": {
+       "count": 208,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 90,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c4",
+       "createdAt": "2026-11-27T05:01:34.315000+0000",
+       "score": 7227,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user4"
+       },
+       "content": {
+        "markdown": "Comment 4 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c4",
+      "childCount": 2,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c5",
+       "createdAt": "2026-11-27T05:08:52.361000+0000",
+       "score": 763,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user5"
+       },
+       "content": {
+        "markdown": "Comment 5 of the fixture, at depth 1."
+       }
+      }
+     },
+     {
+      "depth": 2,
+      "parentId": "t1_c5",
+      "childCount": 0,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c6",
+       "createdAt": "2026-11-27T06:59:32.401000+0000",
+       "score": 93,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": true,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user3"
+       },
+       "content": {
+        "markdown": "Comment 6 of the fixture, at depth 2."
+       }
+      }
+     },
+     {
+      "depth": 2,
+      "parentId": "t1_c5",
+      "childCount": 1,
+      "more": {
+       "count": 1,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c4",
+      "childCount": 87,
+      "more": {
+       "count": 87,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 23,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c7",
+       "createdAt": "2026-11-27T05:32:44.798000+0000",
+       "score": 1294,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user6"
+       },
+       "content": {
+        "markdown": "Comment 7 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c7",
+      "childCount": 23,
+      "more": {
+       "count": 23,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 75,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c8",
+       "createdAt": "2026-11-27T05:19:18.906000+0000",
+       "score": 3942,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user7"
+       },
+       "content": {
+        "markdown": "Comment 8 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c8",
+      "childCount": 75,
+      "more": {
+       "count": 75,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 52,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c9",
+       "createdAt": "2026-11-27T04:58:01.414000+0000",
+       "score": 2916,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user8"
+       },
+       "content": {
+        "markdown": "Comment 9 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c9",
+      "childCount": 52,
+      "more": {
+       "count": 52,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 43,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c10",
+       "createdAt": "2026-11-27T05:54:46.395000+0000",
+       "score": 1334,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user9"
+       },
+       "content": {
+        "markdown": "Comment 10 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c10",
+      "childCount": 43,
+      "more": {
+       "count": 43,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 17,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c11",
+       "createdAt": "2026-11-27T08:28:43.115000+0000",
+       "score": 701,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user10"
+       },
+       "content": {
+        "markdown": "Comment 11 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c11",
+      "childCount": 17,
+      "more": {
+       "count": 17,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 38,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c12",
+       "createdAt": "2026-11-27T06:49:52.455000+0000",
+       "score": 1167,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user11"
+       },
+       "content": {
+        "markdown": "Comment 12 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c12",
+      "childCount": 38,
+      "more": {
+       "count": 38,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 11,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c13",
+       "createdAt": "2026-11-27T05:12:24.105000+0000",
+       "score": 737,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user12"
+       },
+       "content": {
+        "markdown": "Comment 13 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c13",
+      "childCount": 11,
+      "more": {
+       "count": 11,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 40,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c14",
+       "createdAt": "2026-11-27T05:16:32.551000+0000",
+       "score": 2262,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user13"
+       },
+       "content": {
+        "markdown": "Comment 14 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c14",
+      "childCount": 40,
+      "more": {
+       "count": 40,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 14,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c15",
+       "createdAt": "2026-11-27T09:58:47.168000+0000",
+       "score": 221,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user14"
+       },
+       "content": {
+        "markdown": "Comment 15 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c15",
+      "childCount": 14,
+      "more": {
+       "count": 14,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 11,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c16",
+       "createdAt": "2026-11-27T06:16:01.546000+0000",
+       "score": 674,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user15"
+       },
+       "content": {
+        "markdown": "Comment 16 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c16",
+      "childCount": 11,
+      "more": {
+       "count": 11,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 14,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c17",
+       "createdAt": "2026-11-27T05:02:37.443000+0000",
+       "score": 1888,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user16"
+       },
+       "content": {
+        "markdown": "Comment 17 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c17",
+      "childCount": 14,
+      "more": {
+       "count": 14,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 15,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c18",
+       "createdAt": "2026-11-27T07:29:28.977000+0000",
+       "score": 332,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user17"
+       },
+       "content": {
+        "markdown": "Comment 18 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c18",
+      "childCount": 15,
+      "more": {
+       "count": 15,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 2,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c19",
+       "createdAt": "2026-11-27T06:52:32.113000+0000",
+       "score": 406,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user18"
+       },
+       "content": {
+        "markdown": "Comment 19 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c19",
+      "childCount": 2,
+      "more": {
+       "count": 2,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 22,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c20",
+       "createdAt": "2026-11-27T05:09:28.528000+0000",
+       "score": 843,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user19"
+       },
+       "content": {
+        "markdown": "Comment 20 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c20",
+      "childCount": 22,
+      "more": {
+       "count": 22,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 2,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c21",
+       "createdAt": "2026-11-27T07:54:26.507000+0000",
+       "score": 141,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user20"
+       },
+       "content": {
+        "markdown": "Comment 21 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c21",
+      "childCount": 2,
+      "more": {
+       "count": 2,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 38,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c22",
+       "createdAt": "2026-11-27T04:53:47.920000+0000",
+       "score": 1681,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user21"
+       },
+       "content": {
+        "markdown": "Comment 22 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c22",
+      "childCount": 38,
+      "more": {
+       "count": 38,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 2,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c23",
+       "createdAt": "2026-11-27T05:14:22.658000+0000",
+       "score": 179,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user22"
+       },
+       "content": {
+        "markdown": "Comment 23 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c23",
+      "childCount": 2,
+      "more": {
+       "count": 2,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 61,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c24",
+       "createdAt": "2026-11-27T06:14:23.169000+0000",
+       "score": 841,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user23"
+       },
+       "content": {
+        "markdown": "Comment 24 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c24",
+      "childCount": 61,
+      "more": {
+       "count": 61,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 2,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c25",
+       "createdAt": "2026-11-27T06:36:43.231000+0000",
+       "score": 224,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user24"
+       },
+       "content": {
+        "markdown": "Comment 25 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c25",
+      "childCount": 2,
+      "more": {
+       "count": 2,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 3,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c26",
+       "createdAt": "2026-11-27T06:07:08.373000+0000",
+       "score": 358,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user25"
+       },
+       "content": {
+        "markdown": "Comment 26 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c26",
+      "childCount": 3,
+      "more": {
+       "count": 3,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 3,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c27",
+       "createdAt": "2026-11-27T07:12:54.993000+0000",
+       "score": 51,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user26"
+       },
+       "content": {
+        "markdown": "Comment 27 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c27",
+      "childCount": 3,
+      "more": {
+       "count": 3,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 5,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c28",
+       "createdAt": "2026-11-27T05:13:57.786000+0000",
+       "score": 449,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user27"
+       },
+       "content": {
+        "markdown": "Comment 28 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c28",
+      "childCount": 5,
+      "more": {
+       "count": 5,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 0,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c29",
+       "createdAt": "2026-11-27T09:27:12.265000+0000",
+       "score": 95,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user28"
+       },
+       "content": {
+        "markdown": "Comment 29 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 44,
+      "more": null,
+      "node": {
+       "__typename": "Comment",
+       "id": "t1_c30",
+       "createdAt": "2026-11-27T05:03:39.218000+0000",
+       "score": 659,
+       "isScoreHidden": false,
+       "isStickied": false,
+       "isOP": false,
+       "isRemoved": false,
+       "distinguishedAs": null,
+       "authorInfo": {
+        "__typename": "Redditor",
+        "name": "user29"
+       },
+       "content": {
+        "markdown": "Comment 30 of the fixture, at depth 0."
+       }
+      }
+     },
+     {
+      "depth": 1,
+      "parentId": "t1_c30",
+      "childCount": 44,
+      "more": {
+       "count": 44,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     },
+     {
+      "depth": 0,
+      "parentId": null,
+      "childCount": 733,
+      "more": {
+       "count": 733,
+       "cursor": "cursor-example",
+       "isTooDeepForCount": false
+      },
+      "node": null
+     }
+    ]
+   }
+  }
+ }
+}

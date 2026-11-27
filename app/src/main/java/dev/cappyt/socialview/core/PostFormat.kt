@@ -7,17 +7,20 @@ object PostFormat {
     /**
      * Reddit-style compact count: 999, 1.2k, 12k, 1.2m.
      */
-    fun compactCount(value: Int?): String? {
+    fun compactCount(value: Int?): String? = compactCount(value?.toLong())
+
+    fun compactCount(value: Long?): String? {
         if (value == null) return null
         val sign = if (value < 0) "-" else ""
-        val size = kotlin.math.abs(value.toLong())
+        val size = if (value == Long.MIN_VALUE) Long.MAX_VALUE else kotlin.math.abs(value)
         val text = when {
             size < 1_000 -> size.toString()
             size < 10_000 -> decimal(size, 1_000, "k")
             size < 1_000_000 -> "${size / 1_000}k"
             size < 10_000_000 -> decimal(size, 1_000_000, "m")
             size < 1_000_000_000 -> "${size / 1_000_000}m"
-            else -> "${size / 1_000_000_000}b"
+            size < 1_000_000_000_000 -> "${size / 1_000_000_000}b"
+            else -> "${size / 1_000_000_000_000}t"
         }
         return sign + text
     }

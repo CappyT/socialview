@@ -21,7 +21,39 @@ object LinkParser {
         """^/(?:[A-Za-z0-9._]+/)?(p|reel|reels|tv)/([A-Za-z0-9_-]+)(?:/.*)?$""",
         RegexOption.IGNORE_CASE,
     )
+    private val INSTAGRAM_PROFILE_PATH = Regex(
+        """^/(?:_u/)?([A-Za-z0-9_](?:[A-Za-z0-9._]{0,28}[A-Za-z0-9_])?)(?:/(?:reels|tagged))?/?$""",
+    )
+
+    // First path segments that Instagram uses for its own pages, so they are never a username.
+    private val INSTAGRAM_RESERVED_NAMES = setOf(
+        "_n", "_u", "about", "accounts", "ads", "api", "ar", "business", "challenge", "consent",
+        "data", "developer", "developers", "direct", "directory", "download", "emails", "embed",
+        "embed.js", "explore", "graphql", "help", "igtv", "legal", "lite", "locations", "login",
+        "nametag", "oauth", "p", "press", "privacy", "reel", "reels", "session", "share", "signup",
+        "static", "stories", "tags", "terms", "topics", "tv", "web", "your_activity",
+    )
     private val FACEBOOK_ID = Regex("""[A-Za-z0-9._-]+""")
+    private val FACEBOOK_PAGE_PATH = Regex("""^/([A-Za-z0-9][A-Za-z0-9.-]+)/?$""")
+    private val FACEBOOK_PEOPLE_PATH = Regex("""^/people/[^/]+/(\d+)/?$""")
+    private val FACEBOOK_RESERVED_NAMES = setOf(
+        "about", "ads", "bookmarks", "business", "careers", "checkpoint", "dialog", "events",
+        "feed", "friends", "fundraisers", "games", "gaming", "groups", "hashtag", "help", "home",
+        "legal", "live", "login", "marketplace", "me", "memories", "messages", "notifications",
+        "pages", "people", "photo", "photos", "plugins", "policies", "posts", "privacy", "public",
+        "recover", "reel", "reels", "reg", "saved", "search", "settings", "share", "sharer",
+        "stories", "terms", "videos", "watch",
+    )
+    private val TIKTOK_PROFILE_PATH = Regex("""^/@([A-Za-z0-9._]+)/?$""")
+    private val X_PROFILE_PATH = Regex(
+        """^/([A-Za-z0-9_]{1,15})(?:/(?:with_replies|media|likes|highlights))?/?$""",
+    )
+    private val X_RESERVED_NAMES = setOf(
+        "2", "about", "account", "bookmarks", "communities", "compose", "download", "explore",
+        "hashtag", "home", "i", "intent", "jobs", "lists", "login", "logout", "messages",
+        "notifications", "oauth", "premium", "privacy", "search", "settings", "share", "signup",
+        "statuses", "topics", "tos", "verified",
+    )
     private val FACEBOOK_POST_PATH = Regex("""^/([A-Za-z0-9._-]+)/posts/([A-Za-z0-9._-]+)(?:/.*)?$""")
     private val FACEBOOK_GROUP_POST_PATH =
         Regex("""^/groups/([A-Za-z0-9._-]+)/posts/([A-Za-z0-9._-]+)(?:/.*)?$""")
@@ -37,6 +69,9 @@ object LinkParser {
     private val X_I_STATUS_PATH = Regex("""^/i/(?:web/)?status/(\d+)(?:/.*)?$""")
     private val X_STATUSES_PATH = Regex("""^/statuses/(\d+)(?:/.*)?$""")
     private val REDDIT_POST_PATH = Regex("""^/r/([A-Za-z0-9_]+)/comments/([a-z0-9]+)(?:\.json)?(?:/.*)?$""")
+    private val REDDIT_USER_PATH = Regex(
+        """^/(?:user|u)/([A-Za-z0-9_-]{1,30})(?:/(?:submitted|overview|posts))?/?$""",
+    )
     private val REDDIT_COMMENTS_PATH = Regex("""^/comments/([a-z0-9]+)(?:\.json)?(?:/.*)?$""")
     private val INSTAGRAM_QUERY_ALLOWLIST = setOf("img_index")
     private val FACEBOOK_QUERY_ALLOWLIST = setOf("story_fbid", "id", "fbid", "set", "v")
@@ -51,7 +86,7 @@ object LinkParser {
     }
 
     fun parse(text: String): ParsedLink {
-        val url = findUrl(text) ?: return ParsedLink.Invalid("No web link found. Paste a post URL.")
+        val url = findUrl(text) ?: return ParsedLink.Invalid("No web link found. Paste a post or profile URL.")
         return classify(url)
     }
 
@@ -74,7 +109,8 @@ object LinkParser {
             ?: return ParsedLink.Unsupported(
                 platform = null,
                 url = value,
-                reason = "SocialView supports single posts from Instagram, Facebook, TikTok, X and Reddit.",
+                reason = "SocialView supports posts and profiles from Instagram, Facebook, TikTok, X " +
+                    "and Reddit.",
             )
         val path = uri.path.orEmpty().ifBlank { "/" }
         val query = allowedQuery(platform, queryParameters(uri.rawQuery))
@@ -89,8 +125,22 @@ object LinkParser {
         }
     }
 
+    /** The profile link of an author handle such as `@nasa`, when the app can open it. */
+    fun profileUrl(platform: Platform, handle: String): String? {
+        val name = handle.removePrefix("@")
+        val url = when (platform) {
+            Platform.INSTAGRAM -> "https://www.instagram.com/$name/"
+            Platform.FACEBOOK -> "https://www.facebook.com/$name/"
+            Platform.TIKTOK -> "https://www.tiktok.com/@$name"
+            Platform.X -> "https://x.com/$name"
+            Platform.REDDIT -> return null
+        }
+        return (classify(url) as? ParsedLink.Profile)?.link?.browserUrl
+    }
+
     fun platformHint(text: String): Platform? = when (val parsed = parse(text)) {
         is ParsedLink.Post -> parsed.link.platform
+        is ParsedLink.Profile -> parsed.link.platform
         is ParsedLink.Short -> parsed.platform
         is ParsedLink.Unsupported -> parsed.platform
         is ParsedLink.Invalid -> null
@@ -157,11 +207,24 @@ object LinkParser {
                 ),
             )
         }
-        val reason = when {
-            path.startsWith("/stories/") -> "Instagram stories need a login. Open this link in a browser."
-            path == "/" || path.count { it == '/' } == 1 ->
-                "This Instagram link is a profile, not a single post."
-            else -> "This Instagram link is not a single post. Feeds, profiles and stories are not supported."
+        val username = INSTAGRAM_PROFILE_PATH.matchEntire(path)
+            ?.groupValues?.get(1)
+            ?.lowercase(Locale.ROOT)
+            ?.takeUnless { it in INSTAGRAM_RESERVED_NAMES || ".." in it }
+        if (username != null) {
+            return ParsedLink.Profile(
+                ProfileLink(
+                    platform = Platform.INSTAGRAM,
+                    username = username,
+                    browserUrl = "https://www.instagram.com/$username/",
+                    originalUrl = originalUrl,
+                ),
+            )
+        }
+        val reason = if (path.startsWith("/stories/")) {
+            "Instagram stories need a login. Open this link in a browser."
+        } else {
+            "This Instagram link is not a post or a profile. Feeds and stories are not supported."
         }
         return ParsedLink.Unsupported(Platform.INSTAGRAM, originalUrl, reason)
     }
@@ -313,12 +376,34 @@ object LinkParser {
             )
         }
 
-        val reason = when {
-            path == "/" || path.count { it == '/' } == 1 ->
-                "This Facebook link is a profile or page, not a single post."
-            else -> "This Facebook link is not a single post. Profiles, feeds and albums are not supported."
+        facebookPage(path, query)?.let { (name, browserUrl) ->
+            return ParsedLink.Profile(ProfileLink(Platform.FACEBOOK, name, browserUrl, originalUrl))
         }
-        return ParsedLink.Unsupported(Platform.FACEBOOK, originalUrl, reason)
+        return ParsedLink.Unsupported(
+            Platform.FACEBOOK,
+            originalUrl,
+            "This Facebook link is not a post or a page. Feeds and albums are not supported.",
+        )
+    }
+
+    /** The vanity name or numeric id of a page link, with its canonical URL. */
+    private fun facebookPage(path: String, query: Map<String, String>): Pair<String, String>? {
+        // The slug of a people link is free text. The id alone makes the same canonical link.
+        val people = FACEBOOK_PEOPLE_PATH.matchEntire(path)
+        if (people != null || path == "/profile.php") {
+            val id = (people?.groupValues?.get(1) ?: query["id"])
+                ?.takeIf { it.matches(Regex("""\d+""")) }
+                ?: return null
+            return id to "https://www.facebook.com/profile.php?id=$id"
+        }
+        // Facebook's own pages are reserved words or scripts.
+        val name = FACEBOOK_PAGE_PATH.matchEntire(path)?.groupValues?.get(1)
+            ?.takeUnless {
+                val lower = it.lowercase(Locale.ROOT)
+                lower in FACEBOOK_RESERVED_NAMES || lower.endsWith(".php") || ".." in it
+            }
+            ?: return null
+        return name to "https://www.facebook.com/$name/"
     }
 
     private fun facebookPost(
@@ -369,10 +454,18 @@ object LinkParser {
             return ParsedLink.Short(Platform.TIKTOK, requestUrl, originalUrl)
         }
 
-        val reason = when {
-            path.endsWith("/live") -> "TikTok Live is not a single post."
-            path.startsWith("/@") -> "This TikTok link is a profile, not a single post."
-            else -> "This TikTok link is not a single post. Profiles and feeds are not supported."
+        TIKTOK_PROFILE_PATH.matchEntire(path)?.let { match ->
+            // The creator embed answers only to the lowercase name.
+            val user = match.groupValues[1].lowercase(Locale.ROOT)
+            return ParsedLink.Profile(
+                ProfileLink(Platform.TIKTOK, user, "https://www.tiktok.com/@$user", originalUrl),
+            )
+        }
+
+        val reason = if (path.endsWith("/live")) {
+            "TikTok Live is not a single post."
+        } else {
+            "This TikTok link is not a post or a profile. Feeds are not supported."
         }
         return ParsedLink.Unsupported(Platform.TIKTOK, originalUrl, reason)
     }
@@ -421,10 +514,15 @@ object LinkParser {
             )
         }
 
+        val user = X_PROFILE_PATH.matchEntire(path)?.groupValues?.get(1)
+            ?.takeUnless { it.lowercase(Locale.ROOT) in X_RESERVED_NAMES || it.all { char -> char == '_' } }
+        if (user != null) {
+            return ParsedLink.Profile(ProfileLink(Platform.X, user, "https://x.com/$user", originalUrl))
+        }
         return ParsedLink.Unsupported(
             Platform.X,
             originalUrl,
-            "This X link is not a single post. Profiles, searches and threads are not supported.",
+            "This X link is not a post or a profile. Searches and lists are not supported.",
         )
     }
 
@@ -474,10 +572,17 @@ object LinkParser {
             )
         }
 
+        REDDIT_USER_PATH.matchEntire(path)?.let { match ->
+            val user = match.groupValues[1]
+            return ParsedLink.Profile(
+                ProfileLink(Platform.REDDIT, user, "https://www.reddit.com/user/$user/", originalUrl),
+            )
+        }
+
         return ParsedLink.Unsupported(
             Platform.REDDIT,
             originalUrl,
-            "This Reddit link is not a single post. Subreddit feeds and user pages are not supported.",
+            "This Reddit link is not a post or a user profile. Subreddit feeds are not supported.",
         )
     }
 

@@ -1,0 +1,19 @@
+{
+ "extra": {
+  "fatal_item_ids": [],
+  "logid": "example",
+  "now": 1795789439000
+ },
+ "log_pb": {
+  "impr_id": "example"
+ },
+ "results": [
+  {
+   "code": "nil_core_data",
+   "id": 7709194461913419039,
+   "id_str": "7709194461913419039"
+  }
+ ],
+ "status_code": 0,
+ "status_msg": ""
+}

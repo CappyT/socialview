@@ -96,11 +96,50 @@ class LinkParserTest {
     }
 
     @Test
-    fun `instagram profile is unsupported`() {
-        val parsed = LinkParser.parse("https://www.instagram.com/nasa/")
-        assertTrue(parsed is ParsedLink.Unsupported)
-        assertEquals(Platform.INSTAGRAM, (parsed as ParsedLink.Unsupported).platform)
-        assertTrue(parsed.reason.contains("profile"))
+    fun `instagram profile links are profiles without tracking`() {
+        val expected = ProfileLink(
+            platform = Platform.INSTAGRAM,
+            username = "nasa",
+            browserUrl = "https://www.instagram.com/nasa/",
+            originalUrl = "https://www.instagram.com/NASA?igsh=abc123&utm_source=qr",
+        )
+
+        assertEquals(
+            ParsedLink.Profile(expected),
+            LinkParser.parse("https://www.instagram.com/NASA?igsh=abc123&utm_source=qr"),
+        )
+        listOf(
+            "https://instagram.com/nasa/",
+            "https://www.instagram.com/_u/nasa",
+            "https://www.instagram.com/nasa/reels/",
+            "https://www.instagram.com/nasa/tagged",
+        ).forEach { url ->
+            val parsed = LinkParser.parse(url)
+            assertTrue(url, parsed is ParsedLink.Profile)
+            assertEquals(url, expected.browserUrl, (parsed as ParsedLink.Profile).link.browserUrl)
+        }
+    }
+
+    @Test
+    fun `instagram pages that are not a profile are unsupported`() {
+        listOf(
+            "https://www.instagram.com/",
+            "https://www.instagram.com/explore/",
+            "https://www.instagram.com/accounts/login/",
+            "https://www.instagram.com/reels/",
+            "https://www.instagram.com/nasa/followers/",
+            "https://www.instagram.com/a-b/",
+            "https://www.instagram.com/../",
+            "https://www.instagram.com/.../",
+            "https://www.instagram.com/na..sa/",
+            "https://www.instagram.com/nasa./",
+            "https://www.instagram.com/consent/",
+            "https://www.instagram.com/your_activity/",
+        ).forEach { url ->
+            val parsed = LinkParser.parse(url)
+            assertTrue(url, parsed is ParsedLink.Unsupported)
+            assertEquals(Platform.INSTAGRAM, (parsed as ParsedLink.Unsupported).platform)
+        }
     }
 
     @Test
@@ -135,11 +174,26 @@ class LinkParserTest {
         }
     }
 
+    private fun profile(url: String): ProfileLink {
+        val parsed = LinkParser.parse(url)
+        assertTrue("$url -> $parsed", parsed is ParsedLink.Profile)
+        return (parsed as ParsedLink.Profile).link
+    }
+
     @Test
-    fun `tiktok profile is unsupported`() {
-        val parsed = LinkParser.parse("https://www.tiktok.com/@scout2015")
-        assertTrue(parsed is ParsedLink.Unsupported)
-        assertEquals(Platform.TIKTOK, (parsed as ParsedLink.Unsupported).platform)
+    fun `tiktok profile links use the lowercase name`() {
+        val link = profile("https://www.tiktok.com/@Scout2015?lang=it&_t=abc")
+        assertEquals(Platform.TIKTOK, link.platform)
+        assertEquals("scout2015", link.username)
+        assertEquals("https://www.tiktok.com/@scout2015", link.browserUrl)
+
+        listOf(
+            "https://www.tiktok.com/@scout2015/live",
+            "https://www.tiktok.com/tag/cats",
+            "https://www.tiktok.com/discover",
+        ).forEach { url ->
+            assertTrue(url, LinkParser.parse(url) is ParsedLink.Unsupported)
+        }
     }
 
     @Test
@@ -165,10 +219,34 @@ class LinkParserTest {
     }
 
     @Test
-    fun `x profile is unsupported`() {
-        val parsed = LinkParser.parse("https://x.com/jack")
-        assertTrue(parsed is ParsedLink.Unsupported)
-        assertEquals(Platform.X, (parsed as ParsedLink.Unsupported).platform)
+    fun `x profile links and their tabs are profiles`() {
+        listOf(
+            "https://x.com/jack",
+            "https://twitter.com/jack/?ref_src=twsrc%5Etfw",
+            "https://mobile.twitter.com/jack/with_replies",
+            "https://x.com/jack/media",
+        ).forEach { url ->
+            val link = profile(url)
+            assertEquals(url, Platform.X, link.platform)
+            assertEquals(url, "https://x.com/jack", link.browserUrl)
+        }
+    }
+
+    @Test
+    fun `x pages that are not an account are unsupported`() {
+        listOf(
+            "https://x.com/home",
+            "https://x.com/explore",
+            "https://x.com/i/lists/123",
+            "https://x.com/search?q=cats",
+            "https://x.com/a_name_longer_than_15",
+            "https://x.com/_",
+            "https://x.com/jack/followers",
+        ).forEach { url ->
+            val parsed = LinkParser.parse(url)
+            assertTrue(url, parsed is ParsedLink.Unsupported)
+            assertEquals(Platform.X, (parsed as ParsedLink.Unsupported).platform)
+        }
     }
 
     @Test
@@ -199,6 +277,26 @@ class LinkParserTest {
         assertTrue(
             LinkParser.parse("https://reddit.app.link/AbCd12") is ParsedLink.Short,
         )
+    }
+
+    @Test
+    fun `reddit user links are profiles and user posts are not`() {
+        listOf(
+            "https://www.reddit.com/user/spez",
+            "https://old.reddit.com/u/spez/",
+            "https://www.reddit.com/user/spez/submitted/?sort=top",
+        ).forEach { url ->
+            val link = profile(url)
+            assertEquals(url, Platform.REDDIT, link.platform)
+            assertEquals(url, "spez", link.username)
+            assertEquals(url, "https://www.reddit.com/user/spez/", link.browserUrl)
+        }
+        listOf(
+            "https://www.reddit.com/user/spez/comments/",
+            "https://www.reddit.com/user/",
+        ).forEach { url ->
+            assertTrue(url, LinkParser.parse(url) is ParsedLink.Unsupported)
+        }
     }
 
     @Test
@@ -336,7 +434,7 @@ class LinkParserTest {
     }
 
     @Test
-    fun `facebook short links are short and profiles are unsupported`() {
+    fun `facebook short links are short and stories are unsupported`() {
         listOf(
             "https://fb.watch/abcDEF/",
             "https://www.facebook.com/share/p/AbCdEf/",
@@ -344,11 +442,6 @@ class LinkParserTest {
         ).forEach { url ->
             assertTrue(url, LinkParser.parse(url) is ParsedLink.Short)
         }
-
-        val profile = LinkParser.parse("https://www.facebook.com/zuck")
-        assertTrue(profile is ParsedLink.Unsupported)
-        assertEquals(Platform.FACEBOOK, (profile as ParsedLink.Unsupported).platform)
-        assertTrue(profile.reason.contains("profile"))
 
         val story = LinkParser.parse("https://www.facebook.com/stories/123/")
         assertTrue(story is ParsedLink.Unsupported)
@@ -369,6 +462,56 @@ class LinkParserTest {
             "https://www.facebook.com/page/posts/123/",
             post("facebook.com/page/posts/123").browserUrl,
         )
+    }
+
+    @Test
+    fun `facebook page links are profiles`() {
+        val vanity = profile("https://m.facebook.com/NASA/?ref=share&mibextid=abc")
+        assertEquals(Platform.FACEBOOK, vanity.platform)
+        assertEquals("NASA", vanity.username)
+        assertEquals("https://www.facebook.com/NASA/", vanity.browserUrl)
+
+        val numeric = profile("https://www.facebook.com/profile.php?id=100044561550831&sk=about")
+        assertEquals("100044561550831", numeric.username)
+        assertEquals("https://www.facebook.com/profile.php?id=100044561550831", numeric.browserUrl)
+
+        val people = profile("https://www.facebook.com/people/The-Human-Timeline/61590395142848")
+        assertEquals("61590395142848", people.username)
+        assertEquals("https://www.facebook.com/profile.php?id=61590395142848", people.browserUrl)
+        assertEquals(
+            people.browserUrl,
+            profile("https://www.facebook.com/people/John%20Doe%3Fa%23b/61590395142848/").browserUrl,
+        )
+    }
+
+    @Test
+    fun `facebook pages that are not a page are unsupported`() {
+        listOf(
+            "https://www.facebook.com/",
+            "https://www.facebook.com/marketplace/",
+            "https://www.facebook.com/groups/123/",
+            "https://www.facebook.com/login.php",
+            "https://www.facebook.com/profile.php",
+            "https://www.facebook.com/NASA/photos/",
+            "https://www.facebook.com/home",
+            "https://www.facebook.com/feed/",
+            "https://www.facebook.com/photos/",
+            "https://www.facebook.com/r.php",
+            "https://www.facebook.com/policy.php",
+        ).forEach { url ->
+            val parsed = LinkParser.parse(url)
+            assertTrue("$url -> $parsed", parsed is ParsedLink.Unsupported)
+        }
+    }
+
+    @Test
+    fun `an author handle gives a profile link only when the app can open it`() {
+        assertEquals("https://www.instagram.com/natgeo/", LinkParser.profileUrl(Platform.INSTAGRAM, "@natgeo"))
+        assertEquals("https://x.com/NASA", LinkParser.profileUrl(Platform.X, "@NASA"))
+        assertEquals("https://www.tiktok.com/@nasa", LinkParser.profileUrl(Platform.TIKTOK, "@NASA"))
+        assertEquals("https://www.facebook.com/NASA/", LinkParser.profileUrl(Platform.FACEBOOK, "@NASA"))
+        assertNull(LinkParser.profileUrl(Platform.INSTAGRAM, "National Geographic"))
+        assertNull(LinkParser.profileUrl(Platform.X, "@explore"))
     }
 
     @Test

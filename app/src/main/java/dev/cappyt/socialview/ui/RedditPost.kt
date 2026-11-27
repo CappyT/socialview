@@ -16,13 +16,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +37,7 @@ import dev.cappyt.socialview.core.PostMediaType
 
 @Composable
 internal fun RedditPostCard(post: PostDetails) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    ContentCard {
         Column {
             RedditHeader(post)
 
@@ -66,7 +63,7 @@ internal fun RedditPostCard(post: PostDetails) {
             }
             if (media.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(10.dp))
-                PostMediaSection(media, post.initialMediaIndex)
+                PostMediaSection(media, post.initialMediaIndex, post.browserUrl, post.sensitive)
             }
 
             post.linkUrl?.let {
@@ -85,13 +82,8 @@ internal fun RedditPostCard(post: PostDetails) {
             ) {
                 RedditActions(post)
                 RedditComments(post)
-                post.note?.let { RedditNote(it) }
-                HorizontalDivider()
-                Text(
-                    text = post.platform.limitation,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                post.note?.let { NoteSurface(it) }
+                PlatformLimitation(post.platform)
             }
         }
     }
@@ -99,11 +91,10 @@ internal fun RedditPostCard(post: PostDetails) {
 
 @Composable
 private fun RedditHeader(post: PostDetails) {
-    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 8.dp, top = 12.dp, bottom = 4.dp),
+            .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         RedditAvatar(post.handle)
@@ -125,9 +116,6 @@ private fun RedditHeader(post: PostDetails) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-        }
-        TextButton(onClick = { openInBrowser(context, post.browserUrl) }) {
-            Text("Open")
         }
     }
 }
@@ -173,8 +161,7 @@ private fun RedditFlair(flair: String) {
 @Composable
 private fun RedditActions(post: PostDetails) {
     val score = post.score
-    val shownComments = post.comments.size.takeIf { it > 0 && post.commentCount == null }
-    if (score == null && post.commentCount == null && shownComments == null) return
+    if (score == null && post.commentCount == null) return
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -193,12 +180,6 @@ private fun RedditActions(post: PostDetails) {
                 icon = R.drawable.ic_comment,
                 description = "Comments",
                 value = PostFormat.compactCount(it) ?: "0",
-            )
-        } ?: shownComments?.let {
-            RedditCount(
-                icon = R.drawable.ic_comment,
-                description = "Public comments shown",
-                value = "$it shown",
             )
         }
     }
@@ -246,13 +227,6 @@ private fun RedditComments(post: PostDetails) {
     }
     post.comments.forEach { comment ->
         RedditComment(comment = comment, opAuthor = post.author)
-    }
-    if (post.commentCount == null) {
-        Text(
-            text = "Showing ${post.comments.size} public comments from the RSS feed.",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
     }
 }
 
@@ -360,21 +334,5 @@ private fun RedditLinkCard(url: String) {
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun RedditNote(note: String) {
-    Surface(
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        shape = RoundedCornerShape(8.dp),
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        Text(
-            text = note,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(10.dp),
-        )
     }
 }

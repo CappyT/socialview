@@ -1,9 +1,12 @@
 package dev.cappyt.socialview.providers
 
 import dev.cappyt.socialview.core.EmbedSpec
+import dev.cappyt.socialview.core.ErrorKind
 import dev.cappyt.socialview.core.Platform
 import dev.cappyt.socialview.core.PostDetails
+import dev.cappyt.socialview.core.PostException
 import dev.cappyt.socialview.core.PostLink
+import dev.cappyt.socialview.net.BrowserHeaders
 import dev.cappyt.socialview.net.HttpFetcher
 import java.net.URI
 import java.net.URLEncoder
@@ -15,6 +18,30 @@ class TikTokProvider(
     override val platform = Platform.TIKTOK
 
     override suspend fun load(link: PostLink): PostDetails {
+        val response = try {
+            fetcher.get(itemUrl(link.postId), BrowserHeaders.json())
+        } catch (error: CancellationException) {
+            throw error
+        } catch (_: Exception) {
+            null
+        }
+        val result = response?.takeIf { it.isSuccess }?.let { TikTokItemParser.parse(it.body, link.postId) }
+        return when (result) {
+            // The official player can still show a post whose media the endpoint left out.
+            is TikTokItemResult.Post -> if (result.post.media.isEmpty()) officialPlayer(link) else result.post
+            TikTokItemResult.Missing -> throw PostException(
+                kind = ErrorKind.NOT_FOUND,
+                message = "This TikTok post was not found or is not public.",
+                browserUrl = link.browserUrl,
+                platform = platform,
+            )
+
+            null -> officialPlayer(link)
+        }
+    }
+
+    /** The post in TikTok's official web player, for when the data endpoint does not answer. */
+    private suspend fun officialPlayer(link: PostLink): PostDetails {
         var playerUrl = fallbackPlayerUrl(link.postId)
         var title: String? = null
         var author: String? = null
@@ -89,4 +116,10 @@ class TikTokProvider(
 
     private fun encode(value: String): String =
         URLEncoder.encode(value, Charsets.UTF_8.name())
+
+    companion object {
+        /** The data endpoint of the official web player. It needs no cookie and no signature. */
+        internal fun itemUrl(postId: String): String =
+            "https://www.tiktok.com/player/api/v1/items?item_ids=$postId&language=en&aid=1459&data_source=web_core"
+    }
 }

@@ -1,0 +1,45 @@
+{
+ "data": {
+  "redditorInfoByName": {
+   "__typename": "Redditor",
+   "contributionStats": {
+    "commentCount": 14642,
+    "postCount": 12735
+   },
+   "id": "t2_example",
+   "isEmployee": false,
+   "karma": {
+    "fromComments": 1110838.0,
+    "fromPosts": 35727418.0,
+    "total": 36838256.0
+   },
+   "name": "example_user",
+   "prefixedName": "u/example_user",
+   "profile": {
+    "createdAt": "2014-10-07T09:38:40.859000+0000",
+    "publicDescriptionText": "An example description.",
+    "socialLinks": [
+     {
+      "outboundUrl": "https://twitter.com/example",
+      "title": "example",
+      "type": "TWITTER"
+     }
+    ],
+    "styles": {
+     "icon": "https://styles.redditmedia.com/t5_example/styles/profileIcon_c4zmya3oel6h1.png?width=64&height=64&frame=1&auto=webp&crop=64:64,smart&s=5154568b85b86f1250662720764a37ffd357594f",
+     "legacyIcon": {
+      "dimensions": {
+       "height": 256,
+       "width": 256
+      },
+      "url": "https://styles.redditmedia.com/t5_example/styles/profileIcon_c4zmya3oel6h1.png?width=256&height=256&frame=1&auto=webp&crop=256:256,smart&s=adf73ff3a46f70a44624197b4da678ccd2dc26ce"
+     },
+     "legacyPrimaryColor": null,
+     "profileBanner": "https://styles.redditmedia.com/t5_example/styles/profileBanner_74ugoeyr5nif1.png?width=1280&height=384&frame=1&auto=webp&crop=1280:384,smart&s=81534c19fd2e253c5bb3da38ac7f48c1eea14910"
+    },
+    "subscribersCount": 33933,
+    "title": "Example"
+   }
+  }
+ }
+}

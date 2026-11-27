@@ -6,6 +6,14 @@ import org.junit.Test
 
 class PostFormatTest {
     @Test
+    fun `compact counts cover the whole long range`() {
+        assertEquals("684m", PostFormat.compactCount(684_256_958L))
+        assertEquals("12b", PostFormat.compactCount(12_000_000_000L))
+        assertEquals("9223372t", PostFormat.compactCount(Long.MAX_VALUE))
+        assertEquals("-9223372t", PostFormat.compactCount(Long.MIN_VALUE))
+    }
+
+    @Test
     fun `counts below one thousand are plain`() {
         assertEquals("0", PostFormat.compactCount(0))
         assertEquals("999", PostFormat.compactCount(999))

@@ -13,6 +13,16 @@ object BrowserHeaders {
         "Upgrade-Insecure-Requests" to "1",
     )
 
+    // Without the two Sec-Fetch headers the GraphQL endpoint answers with the profile HTML.
+    fun graphql(): Map<String, String> = mapOf(
+        "User-Agent" to USER_AGENT,
+        "Accept" to "*/*",
+        "Accept-Language" to "en-US,en;q=0.9",
+        "Content-Type" to "application/x-www-form-urlencoded",
+        "Sec-Fetch-Mode" to "cors",
+        "Sec-Fetch-Site" to "same-origin",
+    )
+
     fun json(): Map<String, String> = mapOf(
         "User-Agent" to USER_AGENT,
         "Accept" to "application/json,text/plain,*/*",

@@ -35,6 +35,15 @@ fun openInBrowser(context: Context, url: String): Boolean {
     }
 }
 
+/** Shares [url] as text through the system sheet, without SocialView as a target. */
+fun shareLink(context: Context, url: String): Boolean {
+    val send = Intent(Intent.ACTION_SEND)
+        .setType("text/plain")
+        .putExtra(Intent.EXTRA_TEXT, url)
+    val own = handlersFor(context, send).filter { it.packageName == context.packageName }
+    return startChooser(context, send, own)
+}
+
 private fun handlersFor(context: Context, intent: Intent): List<BrowserHandler> =
     context.packageManager
         .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)

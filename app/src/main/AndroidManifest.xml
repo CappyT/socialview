@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Saving media to a public folder needs it up to Android 9. -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <!-- Android 17 rejects an <intent> with more than one data scheme: INSTALL_PARSE_FAILED_MANIFEST_MALFORMED. -->
     <queries>

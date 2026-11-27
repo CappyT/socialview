@@ -1,0 +1,320 @@
+{
+ "data": {
+  "profileFeed": {
+   "__typename": "SDProfileFeed",
+   "elements": {
+    "edges": [
+     {
+      "node": {
+       "__typename": "CellGroup",
+       "groupId": "t3_fgghrs",
+       "cells": [
+        {
+         "__typename": "MetadataCell",
+         "authorName": "u/example_user",
+         "createdAt": "2020-03-10T16:27:45.010000+0000",
+         "detailsString": "u/example_user",
+         "statusIndicators": [
+          "PINNED",
+          "LOCKED"
+         ]
+        },
+        {
+         "__typename": "TitleCell",
+         "title": "‪Everything in balance.‬ ‪Except karma ⬆️‬⬆️⬆️"
+        },
+        {
+         "__typename": "ImageCell",
+         "media": {
+          "path": "https://preview.redd.it/41i4qishgvl41.jpg?width=720&auto=webp&s=a544ee49cac390eb828a6da2e30bf9cbf36a39fe",
+          "size": {
+           "height": 749,
+           "width": 720
+          }
+         }
+        },
+        {
+         "__typename": "ActionCell",
+         "commentCount": 66,
+         "score": 7956
+        },
+        {
+         "__typename": "MarginCell"
+        }
+       ]
+      }
+     },
+     {
+      "node": {
+       "__typename": "CellGroup",
+       "groupId": "t3_1uz79k3",
+       "cells": [
+        {
+         "__typename": "MetadataCell",
+         "authorName": "u/example_user",
+         "createdAt": "2026-07-17T18:03:16.834000+0000",
+         "detailsString": "r/aww",
+         "statusIndicators": []
+        },
+        {
+         "__typename": "TitleCell",
+         "title": "She’s enjoying the summer breeze [OC]"
+        },
+        {
+         "__typename": "LegacyVideoCell",
+         "isGif": false,
+         "media": {
+          "path": "https://packaged-media.redd.it/8u59jcvuxtdh1/muxed-medium.mp4?m=DASHPlaylist.mpd&v=1&e=1795784400&s=b3b57e23ab1a142ffa6374c49ae57797bed54c5b"
+         },
+         "preview": {
+          "path": "https://external-preview.redd.it/NG4wNjBpcnV4dGRoMdQqmHkdc8VnKxXpXRKk_w_FM2SWI08gkBzSPUTOCnDs.png?width=1080&auto=webp&s=d8275c2ea99de468a4f00f96f5535035dbf8717a"
+         }
+        },
+        {
+         "__typename": "ActionCell",
+         "commentCount": 10,
+         "score": 73
+        },
+        {
+         "__typename": "MarginCell"
+        }
+       ]
+      }
+     },
+     {
+      "node": {
+       "__typename": "CellGroup",
+       "groupId": "t3_1rzd8im",
+       "cells": [
+        {
+         "__typename": "MetadataCell",
+         "authorName": "u/example_user",
+         "createdAt": "2026-03-21T00:27:51.582000+0000",
+         "detailsString": "r/BorderCollie",
+         "statusIndicators": []
+        },
+        {
+         "__typename": "TitleCell",
+         "title": "4 stacks of frisbees. She got 0. 10/10 dog"
+        },
+        {
+         "__typename": "CrossPostCell"
+        },
+        {
+         "__typename": "ActionCell",
+         "commentCount": 6,
+         "score": 102
+        },
+        {
+         "__typename": "MarginCell"
+        }
+       ]
+      }
+     },
+     {
+      "node": {
+       "__typename": "CellGroup",
+       "groupId": "t3_1eigbzg",
+       "cells": [
+        {
+         "__typename": "MetadataCell",
+         "authorName": "u/example_user",
+         "createdAt": "2024-08-02T17:43:32.541000+0000",
+         "detailsString": "r/aww",
+         "statusIndicators": []
+        },
+        {
+         "__typename": "TitleCell",
+         "title": "Found this baby turtle in our garden. Gave it a stick. Teenage mutant ninja turtle initiation begins today."
+        },
+        {
+         "__typename": "GalleryCell",
+         "pages": [
+          {
+           "image": {
+            "path": "https://preview.redd.it/e7v8sothfagd1.jpg?width=1080&auto=webp&s=ee3ffee8d7297387a0d453b5feacbbb08ac390b8"
+           }
+          },
+          {
+           "image": {
+            "path": "https://preview.redd.it/4cicxothfagd1.jpg?width=1080&auto=webp&s=44e3c336cb9f2c3ccb58f9cc0ba8132c128d0d0f"
+           }
+          }
+         ]
+        },
+        {
+         "__typename": "ActionCell",
+         "commentCount": 16,
+         "score": 185
+        },
+        {
+         "__typename": "MarginCell"
+        }
+       ]
+      }
+     },
+     {
+      "node": {
+       "__typename": "CellGroup",
+       "groupId": "t3_1xiupm0",
+       "cells": [
+        {
+         "__typename": "MetadataCell",
+         "authorName": "u/spez",
+         "createdAt": "2026-10-29T20:08:37.416000+0000",
+         "detailsString": "u/spez",
+         "statusIndicators": [
+          "ADMIN",
+          "PROFILE_VERIFIED_AUTHOR"
+         ]
+        },
+        {
+         "__typename": "TitleCell",
+         "title": "About that login screen"
+        },
+        {
+         "__typename": "PreviewTextCell",
+         "text": "I want to talk about a big change we're making on Reddit: we're going to evolve Reddit to being a primarily logged-in experience. This is a big change for Reddit, where we've allowed logged-out access to basically all of Reddit for the last two decades. And I don’t know about you, but as someone who"
+        },
+        {
+         "__typename": "ActionCell",
+         "commentCount": 539,
+         "score": 0
+        },
+        {
+         "__typename": "MarginCell"
+        }
+       ]
+      }
+     },
+     {
+      "node": {
+       "__typename": "CellGroup",
+       "groupId": "t3_1vgbkge",
+       "cells": [
+        {
+         "__typename": "MetadataCell",
+         "authorName": "u/spez",
+         "createdAt": "2026-08-05T16:03:56.264000+0000",
+         "detailsString": "u/spez",
+         "statusIndicators": [
+          "ADMIN",
+          "PROFILE_VERIFIED_AUTHOR"
+         ]
+        },
+        {
+         "__typename": "TitleWithThumbnailCell",
+         "titleCell": {
+          "title": "Modernizing Reddit’s infrastructure with you"
+         },
+         "thumbnail": {
+          "__typename": "CellMedia",
+          "sourceData": {
+           "__typename": "CellMediaSource",
+           "isObfuscated": false,
+           "obfuscatedPath": null,
+           "path": "https://external-preview.redd.it/-_NM9QKmwnaF7Ti3sXwY6oJD9PVQrQGXBx1288oLFXw.png?width=320&auto=webp&s=edd7dc4f8872e2fb7b167461be2ff99e5c0f90e5",
+           "size": {
+            "height": 168,
+            "width": 320
+           }
+          },
+          "type": "IMAGE"
+         },
+         "previewTextCell": {
+          "text": "Hi everyone, Last May, I shared how we were building Reddit for its next chapter"
+         }
+        },
+        {
+         "__typename": "ActionCell",
+         "commentCount": 494,
+         "score": 382
+        },
+        {
+         "__typename": "MarginCell"
+        }
+       ]
+      }
+     },
+     {
+      "node": {
+       "__typename": "CellGroup",
+       "groupId": "t3_1t4nr7v",
+       "cells": [
+        {
+         "__typename": "MetadataCell",
+         "authorName": "u/spez",
+         "createdAt": "2026-05-05T18:19:02.142000+0000",
+         "detailsString": "u/spez",
+         "statusIndicators": [
+          "ADMIN",
+          "PROFILE_VERIFIED_AUTHOR"
+         ]
+        },
+        {
+         "__typename": "TitleCell",
+         "title": "Reddit looked old the day it was born. I joined my friend D. Scott Phoenix on the Progress podcast to discuss communities, AI, and what makes the internet feel human."
+        },
+        {
+         "__typename": "EmptyContentCell"
+        },
+        {
+         "__typename": "ActionCell",
+         "commentCount": 49,
+         "score": 66
+        },
+        {
+         "__typename": "MarginCell"
+        }
+       ]
+      }
+     },
+     {
+      "node": {
+       "__typename": "CellGroup",
+       "groupId": "t3_fgghrs",
+       "cells": [
+        {
+         "__typename": "MetadataCell",
+         "authorName": "u/example_user",
+         "createdAt": "2020-03-10T16:27:45.010000+0000",
+         "detailsString": "u/example_user",
+         "statusIndicators": [
+          "PINNED",
+          "LOCKED"
+         ]
+        },
+        {
+         "__typename": "TitleCell",
+         "title": "‪Everything in balance.‬ ‪Except karma ⬆️‬⬆️⬆️"
+        },
+        {
+         "__typename": "ImageCell",
+         "media": {
+          "path": "https://preview.redd.it/41i4qishgvl41.jpg?width=720&auto=webp&s=a544ee49cac390eb828a6da2e30bf9cbf36a39fe",
+          "size": {
+           "height": 749,
+           "width": 720
+          }
+         }
+        },
+        {
+         "__typename": "ActionCell",
+         "commentCount": 66,
+         "score": 7956
+        },
+        {
+         "__typename": "MarginCell"
+        }
+       ]
+      }
+     }
+    ],
+    "pageInfo": {
+     "endCursor": "dDNfemdrdWJ4",
+     "hasNextPage": true
+    }
+   }
+  }
+ }
+}

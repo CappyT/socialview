@@ -28,6 +28,10 @@ data class PostMedia(
     val width: Int? = null,
     val height: Int? = null,
     val durationSeconds: Double? = null,
+    /** The file to save. It differs from [url] for a stream playlist, and is null without a file. */
+    val downloadUrl: String? = url,
+    /** Request headers that the media host needs, for the player and for a download. */
+    val headers: Map<String, String> = emptyMap(),
 )
 
 data class PostDetails(
@@ -43,6 +47,8 @@ data class PostDetails(
     val comments: List<PostComment> = emptyList(),
     val note: String? = null,
     val initialMediaIndex: Int = 0,
+    /** The platform marks the post as NSFW or sensitive. Its media stays covered until the user asks. */
+    val sensitive: Boolean = false,
     /** Reddit metadata, in epoch seconds. */
     val createdAt: Long? = null,
     val score: Int? = null,

@@ -21,9 +21,18 @@ class PostLoaderTest {
     private class FakeFetcher(
         private val onGet: (String) -> HttpResult = { throw IOException("Unexpected GET $it") },
         private val onResolve: (String) -> String = { throw IOException("Unexpected resolve $it") },
+        private val onPost: (String, String) -> HttpResult = { url, _ ->
+            throw IOException("Unexpected POST $url")
+        },
     ) : HttpFetcher {
         val gets = mutableListOf<String>()
         val resolves = mutableListOf<String>()
+
+        override suspend fun post(
+            url: String,
+            headers: Map<String, String>,
+            body: String,
+        ): HttpResult = onPost(url, body)
 
         override suspend fun get(url: String, headers: Map<String, String>): HttpResult {
             gets += url
@@ -48,6 +57,9 @@ class PostLoaderTest {
         }
     }
 
+    private val profilePage = """<script type="application/json">{"data":{"xig_user_by_username":""" +
+        """{"pk":"1","username":"nasa","full_name":"NASA","id":"2"}}}</script>"""
+
     private fun provider(platform: Platform) = RecordingProvider(platform) { link ->
         PostDetails(platform = link.platform, browserUrl = link.browserUrl)
     }
@@ -70,7 +82,7 @@ class PostLoaderTest {
             providers = listOf(instagram, reddit),
         )
 
-        val details = loader.load("https://www.reddit.com/r/Android/comments/abc123/")
+        val details = (loader.load("https://www.reddit.com/r/Android/comments/abc123/") as Loaded.Post).post
 
         assertEquals(Platform.REDDIT, details.platform)
         assertEquals(1, reddit.links.size)
@@ -81,7 +93,7 @@ class PostLoaderTest {
     @Test
     fun `an unsupported link keeps the original url for the browser fallback`() = runBlocking {
         val loader = PostLoader(fetcher = FakeFetcher(), providers = listOf(provider(Platform.INSTAGRAM)))
-        val url = "https://www.instagram.com/nasa/"
+        val url = "https://www.instagram.com/explore/"
 
         val error = failureOf { loader.load(url) }
 
@@ -139,8 +151,8 @@ class PostLoaderTest {
     }
 
     @Test
-    fun `a short link that resolves to a profile is unsupported`() = runBlocking {
-        val fetcher = FakeFetcher(onResolve = { "https://www.tiktok.com/@scout2015" })
+    fun `a short link that resolves to a feed is unsupported`() = runBlocking {
+        val fetcher = FakeFetcher(onResolve = { "https://www.tiktok.com/tag/cats" })
         val loader = PostLoader(fetcher = fetcher, providers = listOf(provider(Platform.TIKTOK)))
         val shortUrl = "https://vm.tiktok.com/ZMabc/"
 
@@ -149,6 +161,41 @@ class PostLoaderTest {
         assertTrue(error is PostException)
         assertEquals(ErrorKind.UNSUPPORTED, (error as PostException).kind)
         assertEquals(shortUrl, error.browserUrl)
+    }
+
+    @Test
+    fun `an instagram profile link loads the profile from its canonical url`() = runBlocking {
+        val fetcher = FakeFetcher(onGet = { HttpResult(200, profilePage, "text/html") })
+        val loader = PostLoader(fetcher = fetcher, providers = emptyList())
+
+        val loaded = loader.load("https://instagram.com/NASA?igsh=abc123")
+
+        assertEquals("@nasa", (loaded as Loaded.Profile).profile.handle)
+        assertEquals(listOf("https://www.instagram.com/nasa/"), fetcher.gets)
+    }
+
+    @Test
+    fun `a short link that resolves to an instagram profile loads the profile`() = runBlocking {
+        val fetcher = FakeFetcher(
+            onGet = { HttpResult(200, profilePage, "text/html") },
+            onResolve = { "https://www.instagram.com/nasa?igsh=abc123" },
+        )
+        val loader = PostLoader(fetcher = fetcher, providers = emptyList())
+
+        val loaded = loader.load("https://www.instagram.com/share/BAabc123")
+
+        assertEquals("@nasa", (loaded as Loaded.Profile).profile.handle)
+    }
+
+    @Test
+    fun `a profile network failure is a network error with the canonical url`() = runBlocking {
+        val loader = PostLoader(fetcher = FakeFetcher(), providers = emptyList())
+
+        val error = failureOf { loader.load("https://www.instagram.com/nasa/?igsh=abc123") }
+
+        assertTrue(error is PostException)
+        assertEquals(ErrorKind.NETWORK, (error as PostException).kind)
+        assertEquals("https://www.instagram.com/nasa/", error.browserUrl)
     }
 
     @Test
@@ -202,6 +249,21 @@ class PostLoaderTest {
         val error = failureOf { loader.load("https://x.com/jack/status/20") }
 
         assertSame(expected, error)
+    }
+
+    @Test
+    fun `a provider error without a link gets the canonical url for the browser fallback`() = runBlocking {
+        val reddit = RecordingProvider(Platform.REDDIT) {
+            throw PostException(kind = ErrorKind.UNEXPECTED, message = "No session.")
+        }
+        val loader = PostLoader(fetcher = FakeFetcher(), providers = listOf(reddit))
+
+        val error = failureOf { loader.load("https://www.reddit.com/comments/abc123?utm_source=share") }
+
+        assertEquals(ErrorKind.UNEXPECTED, (error as PostException).kind)
+        assertEquals("No session.", error.message)
+        assertEquals("https://www.reddit.com/comments/abc123", error.browserUrl)
+        assertEquals(Platform.REDDIT, error.platform)
     }
 
     @Test

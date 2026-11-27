@@ -1,0 +1,68 @@
+{
+ "items": [
+  {
+   "id_str": "7475761007382629634",
+   "aweme_type": 150,
+   "desc": "Knight cam #Burberry",
+   "author_info": {
+    "unique_id": "burberry",
+    "nickname": "Burberry",
+    "secret_id": "MS4wLjABAAAA-aQYg5Vyeg5X9W-CFjNje17h1Jqyd2JV9bS--Y2Z941W-oPz9OnxWPAwZQx_YA1s",
+    "avatar_url_list": [
+     "https://p16-common-sign.tiktokcdn-eu.com/tos-no1a-avt-0068c001-no/2a317a9666d19ef2c2aabdadfb835676~tplv-tiktokx-cropcenter:100:100.jpeg?sig=example"
+    ]
+   },
+   "statistics_info": {
+    "comment_count": 534,
+    "digg_count": 15500,
+    "share_count": 477
+   },
+   "video_info": {
+    "url_list": [
+     "https://sf16-music.tiktokcdn-eu.com/obj/tos-alisg-ve-2774/oUDMwKwICwhpAW0V0idEWLi1DB65fpB4sOAPCo"
+    ],
+    "meta": null,
+    "cover": null
+   },
+   "image_post_info": {
+    "images": [
+     {
+      "display_image": {
+       "height": 1868,
+       "width": 1440,
+       "url_list": [
+        "https://p16-common-sign.tiktokcdn-eu.com/tos-no1a-i-photomode-no/151bc9ba1c234de1895a51e3dbe4f58c~tplv-photomode-image.jpeg?sig=example"
+       ]
+      }
+     },
+     {
+      "display_image": {
+       "height": 1800,
+       "width": 1440,
+       "url_list": [
+        "https://p19-common-sign.tiktokcdn-eu.com/tos-no1a-i-photomode-no/09e658f71b68419c9ca70803c4434c8b~tplv-photomode-image.jpeg?sig=example"
+       ]
+      }
+     },
+     {
+      "display_image": {
+       "height": 1800,
+       "width": 1440,
+       "url_list": [
+        "https://p16-common-sign.tiktokcdn-eu.com/tos-no1a-i-photomode-no/f7894f1d6ade417b8c272c9e8a439b15~tplv-photomode-image.jpeg?sig=example"
+       ]
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "results": [
+  {
+   "code": "ok",
+   "id": 7475761007382629634,
+   "id_str": "7475761007382629634"
+  }
+ ],
+ "status_code": 0
+}

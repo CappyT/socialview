@@ -322,34 +322,7 @@ object InstagramPostParser {
         if (markerIndex < 0) return null
         val start = body.indexOf('{', markerIndex + marker.length)
         if (start < 0) return null
-
-        var depth = 0
-        var inString = false
-        var escaped = false
-        for (index in start until body.length) {
-            val char = body[index]
-            if (inString) {
-                when {
-                    escaped -> escaped = false
-                    char == '\\' -> escaped = true
-                    char == '"' -> inString = false
-                }
-                continue
-            }
-            when (char) {
-                '"' -> inString = true
-                '{' -> depth++
-                '}' -> {
-                    depth--
-                    if (depth == 0) {
-                        return runCatching {
-                            JSONObject(body.substring(start, index + 1))
-                        }.getOrNull()
-                    }
-                }
-            }
-        }
-        return null
+        return jsonObjectAt(body, start)
     }
 
     private fun isHttps(url: String): Boolean = url.startsWith("https://")

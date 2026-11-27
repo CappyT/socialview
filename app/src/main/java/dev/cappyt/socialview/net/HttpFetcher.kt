@@ -18,6 +18,8 @@ data class HttpResult(
 interface HttpFetcher {
     suspend fun get(url: String, headers: Map<String, String> = emptyMap()): HttpResult
 
+    suspend fun post(url: String, headers: Map<String, String>, body: String): HttpResult
+
     suspend fun resolve(url: String, headers: Map<String, String> = emptyMap()): String
 }
 
@@ -29,10 +31,23 @@ class UrlConnectionFetcher(
     override suspend fun get(url: String, headers: Map<String, String>): HttpResult = withContext(dispatcher) {
         val connection = open(url, headers, followRedirects = true)
         try {
-            val status = connection.responseCode
-            val stream = if (status in 200..299) connection.inputStream else connection.errorStream
-            val body = stream?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }.orEmpty()
-            HttpResult(status = status, body = body, contentType = connection.contentType)
+            read(connection)
+        } finally {
+            connection.disconnect()
+        }
+    }
+
+    override suspend fun post(
+        url: String,
+        headers: Map<String, String>,
+        body: String,
+    ): HttpResult = withContext(dispatcher) {
+        val connection = open(url, headers, followRedirects = false)
+        try {
+            connection.requestMethod = "POST"
+            connection.doOutput = true
+            connection.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
+            read(connection)
         } finally {
             connection.disconnect()
         }
@@ -55,6 +70,13 @@ class UrlConnectionFetcher(
             current = next.replaceFirst("http://", "https://")
         }
         throw IOException("Too many redirects.")
+    }
+
+    private fun read(connection: HttpURLConnection): HttpResult {
+        val status = connection.responseCode
+        val stream = if (status in 200..299) connection.inputStream else connection.errorStream
+        val body = stream?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }.orEmpty()
+        return HttpResult(status = status, body = body, contentType = connection.contentType)
     }
 
     private fun open(

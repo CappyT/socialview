@@ -8,11 +8,14 @@ import dev.cappyt.socialview.core.PostException
 import dev.cappyt.socialview.core.PostKind
 import dev.cappyt.socialview.core.PostLink
 import dev.cappyt.socialview.core.PostMediaType
+import dev.cappyt.socialview.core.ProfileLink
+import dev.cappyt.socialview.core.ProfilePageRequest
 import dev.cappyt.socialview.net.HttpFetcher
 import dev.cappyt.socialview.net.HttpResult
 import java.io.IOException
 import java.net.URLDecoder
 import kotlinx.coroutines.runBlocking
+import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -23,9 +26,18 @@ class ProviderBehaviourTest {
     private class FakeFetcher(
         private val onGet: (String) -> HttpResult = { throw IOException("Unexpected GET $it") },
         private val onResolve: (String) -> String = { throw IOException("Unexpected resolve $it") },
+        private val onPost: (String, String) -> HttpResult = { url, _ ->
+            throw IOException("Unexpected POST $url")
+        },
     ) : HttpFetcher {
         val gets = mutableListOf<String>()
         val resolves = mutableListOf<String>()
+
+        override suspend fun post(
+            url: String,
+            headers: Map<String, String>,
+            body: String,
+        ): HttpResult = onPost(url, body)
 
         override suspend fun get(url: String, headers: Map<String, String>): HttpResult {
             gets += url
@@ -51,12 +63,6 @@ class ProviderBehaviourTest {
         kind = kind,
     )
 
-    private fun commentEmbedScript(url: String): String {
-        val prefix = "data:text/html;charset=utf-8,"
-        assertTrue("Unexpected fallback URL: $url", url.startsWith(prefix))
-        return URLDecoder.decode(url.removePrefix(prefix), "UTF-8")
-    }
-
     private suspend fun failureOf(block: suspend () -> Unit): Throwable {
         try {
             block()
@@ -65,6 +71,78 @@ class ProviderBehaviourTest {
         }
         throw AssertionError("Expected the call to fail.")
     }
+
+    @Test
+    fun `an instagram page without the profile object is not found`() = runBlocking {
+        val fetcher = FakeFetcher(onGet = { HttpResult(200, "<html><title>Instagram</title></html>", "text/html") })
+
+        val error = failureOf { InstagramProfileProvider(fetcher).load(profileLink("nasa")) }
+
+        assertEquals(ErrorKind.NOT_FOUND, (error as PostException).kind)
+        assertEquals("https://www.instagram.com/nasa/", error.browserUrl)
+        assertEquals(Platform.INSTAGRAM, error.platform)
+    }
+
+    @Test
+    fun `an instagram profile http error is unexpected`() = runBlocking {
+        val fetcher = FakeFetcher(onGet = { HttpResult(429, "", "text/html") })
+
+        val error = failureOf { InstagramProfileProvider(fetcher).load(profileLink("nasa")) }
+
+        assertEquals(ErrorKind.UNEXPECTED, (error as PostException).kind)
+        assertTrue(error.message.contains("429"))
+    }
+
+    @Test
+    fun `more instagram posts are requested with the user id and the cursor`() = runBlocking {
+        val posts = mutableListOf<Pair<String, String>>()
+        val fetcher = FakeFetcher(
+            onPost = { url, body ->
+                posts += url to body
+                HttpResult(
+                    status = 200,
+                    body = """{"data":{"node":{"id":"17841400","polaris_ordered_timeline_connection":{"edges":[""" +
+                        """{"node":{"code":"AbC","media_type":1,"product_type":"feed"}}],""" +
+                        """"page_info":{"end_cursor":"next=","has_next_page":true}}}}}""",
+                    contentType = "text/javascript",
+                )
+            },
+        )
+
+        val page = InstagramProfileProvider(fetcher).loadMore(ProfilePageRequest("17841400", "cur=sor"))
+
+        assertEquals("https://www.instagram.com/p/AbC/", page.posts.single().browserUrl)
+        assertEquals(ProfilePageRequest("17841400", "next="), page.next)
+        val (url, body) = posts.single()
+        assertEquals("https://www.instagram.com/api/graphql/", url)
+        val fields = body.split('&').associate {
+            it.substringBefore('=') to URLDecoder.decode(it.substringAfter('='), "UTF-8")
+        }
+        assertEquals(setOf("doc_id", "variables"), fields.keys)
+        assertTrue(fields.getValue("doc_id").matches(Regex("\\d+")))
+        val variables = JSONObject(fields.getValue("variables"))
+        assertEquals("17841400", variables.getString("id"))
+        assertEquals("cur=sor", variables.getString("after"))
+        assertEquals(12, variables.getInt("first"))
+    }
+
+    @Test
+    fun `an html answer to the instagram timeline request is an error`() = runBlocking {
+        val fetcher = FakeFetcher(onPost = { _, _ -> HttpResult(200, "<!DOCTYPE html><html></html>", "text/html") })
+
+        val error = failureOf {
+            InstagramProfileProvider(fetcher).loadMore(ProfilePageRequest("17841400", "cursor"))
+        }
+
+        assertEquals(ErrorKind.UNEXPECTED, (error as PostException).kind)
+    }
+
+    private fun profileLink(username: String) = ProfileLink(
+        platform = Platform.INSTAGRAM,
+        username = username,
+        browserUrl = "https://www.instagram.com/$username/",
+        originalUrl = "https://www.instagram.com/$username/",
+    )
 
     private val tiktokOEmbed = """
         {
@@ -206,27 +284,6 @@ class ProviderBehaviourTest {
 
     private val facebookVideoUrl =
         "https://video.example/hd.mp4?_nc_cat=100&oh=00_AQ&oe=6AE84E14&efg=eyJ2%3D"
-
-    private val redditFeed = """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <feed xmlns="http://www.w3.org/2005/Atom">
-          <category term="Android" label="r/Android"/>
-          <entry>
-            <author><name>/u/kbDL-</name></author>
-            <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;Pixel update body&lt;/p&gt;&lt;/div&gt;&lt;!-- SC_ON --&gt;</content>
-            <id>t3_abc123</id>
-            <link href="https://www.reddit.com/r/Android/comments/abc123/google_pixel_update/"/>
-            <title>Google Pixel update</title>
-          </entry>
-          <entry>
-            <author><name>/u/bob</name></author>
-            <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;First comment&lt;/p&gt;&lt;/div&gt;</content>
-            <id>t1_1</id>
-            <link href="https://www.reddit.com/r/Android/comments/abc123/google_pixel_update/def/"/>
-            <title>/u/bob on Google Pixel update</title>
-          </entry>
-        </feed>
-    """.trimIndent()
 
     private val facebookReelPage = """
         <html><head>
@@ -619,7 +676,7 @@ class ProviderBehaviourTest {
     }
 
     @Test
-    fun `tiktok uses oembed metadata and its player url`() = runBlocking {
+    fun `tiktok uses oembed metadata and its player url when the item endpoint has no answer`() = runBlocking {
         val fetcher = FakeFetcher(onGet = { HttpResult(200, tiktokOEmbed, "application/json") })
         val details = TikTokProvider(fetcher).load(
             link(
@@ -638,8 +695,10 @@ class ProviderBehaviourTest {
             details.embed?.url,
         )
         assertNull(details.note)
+        assertEquals(2, fetcher.gets.size)
+        assertTrue(fetcher.gets[0].startsWith("https://www.tiktok.com/player/api/v1/items?item_ids=6718335390845095173&"))
         assertTrue(
-            fetcher.gets.single().startsWith(
+            fetcher.gets[1].startsWith(
                 "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40scout2015%2Fvideo%2F6718335390845095173",
             ),
         )
@@ -723,191 +782,5 @@ class ProviderBehaviourTest {
             details.embed?.url,
         )
         assertTrue(details.note!!.contains("HTTP 500"))
-    }
-
-    @Test
-    fun `reddit uses public json including comments`() = runBlocking {
-        val body = """
-            [
-              {"kind":"Listing","data":{"children":[{"kind":"t3","data":{"id":"abc123","subreddit_name_prefixed":"r/Android","author":"alice","title":"Hello","selftext":"Body"}}]}},
-              {"kind":"Listing","data":{"children":[{"kind":"t1","data":{"author":"bob","body":"First","score":3}}]}}
-            ]
-        """.trimIndent()
-        val fetcher = FakeFetcher(onGet = { HttpResult(200, body, "application/json") })
-        val details = RedditProvider(fetcher).load(
-            link("https://www.reddit.com/r/Android/comments/abc123/", Platform.REDDIT, "abc123"),
-        )
-
-        assertEquals("u/alice", details.author)
-        assertEquals("r/Android", details.handle)
-        assertEquals("Hello", details.title)
-        assertEquals("Body", details.text)
-        assertEquals(1, details.comments.size)
-        assertEquals("First", details.comments[0].body)
-        assertNull(details.embed)
-        assertNull(details.note)
-        assertTrue(
-            fetcher.gets.contains(
-                "https://www.reddit.com/comments/abc123.json?raw_json=1&limit=25&sort=top",
-            ),
-        )
-        assertEquals(
-            "https://www.reddit.com/r/Android/comments/abc123/.rss",
-            fetcher.gets.first(),
-        )
-    }
-
-    @Test
-    fun `reddit uses the public rss feed when json is blocked`() = runBlocking {
-        val fetcher = FakeFetcher(onGet = { url ->
-            when {
-                url.contains(".json") -> HttpResult(403, "blocked", "text/html")
-                url.endsWith(".rss") -> HttpResult(200, redditFeed, "application/atom+xml")
-                else -> HttpResult(404, "", null)
-            }
-        })
-        val details = RedditProvider(fetcher).load(
-            link(
-                "https://www.reddit.com/r/Android/comments/abc123/google_pixel_update/",
-                Platform.REDDIT,
-                "abc123",
-            ),
-        )
-
-        assertNull(details.embed)
-        assertEquals("Google Pixel update", details.title)
-        assertEquals("Pixel update body", details.text)
-        assertEquals("u/kbDL-", details.author)
-        assertEquals("r/Android", details.handle)
-        assertEquals(listOf("First comment"), details.comments.map { it.body })
-        assertTrue(details.note!!.contains("RSS feed"))
-        assertTrue(
-            fetcher.gets.contains("https://www.reddit.com/r/Android/comments/abc123/.rss"),
-        )
-    }
-
-    @Test
-    fun `reddit falls back to the official embed when json is blocked`() = runBlocking {
-        val fetcher = FakeFetcher(onGet = { HttpResult(403, "blocked", "text/html") })
-        val details = RedditProvider(fetcher).load(
-            link(
-                "https://www.reddit.com/r/Android/comments/abc123/hello/",
-                Platform.REDDIT,
-                "abc123",
-            ),
-        )
-
-        assertEquals(
-            "https://embed.reddit.com/r/Android/comments/abc123/hello/?depth=1&showmore=false",
-            details.embed?.url,
-        )
-        assertEquals(setOf("embed.reddit.com"), details.embed?.allowedHosts)
-        assertTrue(details.note!!.contains("HTTP 403"))
-        assertTrue(fetcher.resolves.isEmpty())
-    }
-
-    @Test
-    fun `reddit bare comments resolves the subreddit for the fallback`() = runBlocking {
-        val fetcher = FakeFetcher(
-            onGet = { HttpResult(403, "blocked", "text/html") },
-            onResolve = {
-                "https://www.reddit.com/r/Android/comments/abc123/hello/?utm_source=share"
-            },
-        )
-        val details = RedditProvider(fetcher).load(
-            link("https://www.reddit.com/comments/abc123", Platform.REDDIT, "abc123"),
-        )
-
-        assertEquals(
-            "https://embed.reddit.com/r/Android/comments/abc123/hello/?depth=1&showmore=false",
-            details.embed?.url,
-        )
-        assertEquals(setOf("embed.reddit.com"), details.embed?.allowedHosts)
-        assertEquals(listOf("https://www.reddit.com/comments/abc123"), fetcher.resolves)
-        assertTrue(details.note!!.contains("HTTP 403"))
-    }
-
-    @Test
-    fun `reddit redd it fallback resolves the subreddit`() = runBlocking {
-        val parsed = LinkParser.parse("https://redd.it/abc123")
-        assertTrue(parsed is ParsedLink.Post)
-        val fetcher = FakeFetcher(
-            onGet = { HttpResult(429, "", null) },
-            onResolve = { "https://www.reddit.com/r/Android/comments/abc123/hello/" },
-        )
-        val details = RedditProvider(fetcher).load((parsed as ParsedLink.Post).link)
-
-        assertEquals(
-            "https://embed.reddit.com/r/Android/comments/abc123/hello/?depth=1&showmore=false",
-            details.embed?.url,
-        )
-        assertTrue(details.note!!.contains("HTTP 429"))
-    }
-
-    @Test
-    fun `reddit bare comments falls back to the comment embed without a subreddit`() = runBlocking {
-        val fetcher = FakeFetcher(
-            onGet = { HttpResult(403, "blocked", "text/html") },
-            onResolve = { "https://www.reddit.com/" },
-        )
-        val details = RedditProvider(fetcher).load(
-            link("https://www.reddit.com/comments/abc123", Platform.REDDIT, "abc123"),
-        )
-
-        assertEquals(
-            "<script src=\"https://www.reddit.com/comments/abc123/.embed" +
-                "?depth=1&showmore=false\"></script>",
-            commentEmbedScript(details.embed!!.url),
-        )
-        assertEquals(setOf("www.reddit.com"), details.embed?.allowedHosts)
-        assertEquals(
-            "https://www.reddit.com/comments/abc123/.embed?depth=1&showmore=false",
-            details.embed?.requiredScriptUrl,
-        )
-        assertTrue(details.note!!.contains("subreddit was not resolved"))
-    }
-
-    @Test
-    fun `reddit reports a removed post`() = runBlocking {
-        val fetcher = FakeFetcher(onGet = { HttpResult(404, "", null) })
-        val error = failureOf {
-            RedditProvider(fetcher).load(
-                link("https://www.reddit.com/comments/abc123", Platform.REDDIT, "abc123"),
-            )
-        }
-
-        assertTrue(error is PostException)
-        assertEquals(ErrorKind.NOT_FOUND, (error as PostException).kind)
-    }
-
-    @Test
-    fun `reddit reports a missing post inside a valid listing`() = runBlocking {
-        val fetcher = FakeFetcher(
-            onGet = { HttpResult(200, """[{"kind":"Listing","data":{"children":[]}}]""", "application/json") },
-        )
-        val error = failureOf {
-            RedditProvider(fetcher).load(
-                link("https://www.reddit.com/comments/abc123", Platform.REDDIT, "abc123"),
-            )
-        }
-
-        assertTrue(error is PostException)
-        assertEquals(ErrorKind.NOT_FOUND, (error as PostException).kind)
-    }
-
-    @Test
-    fun `reddit falls back when the json request fails`() = runBlocking {
-        val fetcher = FakeFetcher(onGet = { throw IOException("offline") })
-        val details = RedditProvider(fetcher).load(
-            link("https://www.reddit.com/comments/abc123", Platform.REDDIT, "abc123"),
-        )
-
-        assertEquals(
-            "<script src=\"https://www.reddit.com/comments/abc123/.embed" +
-                "?depth=1&showmore=false\"></script>",
-            commentEmbedScript(details.embed!!.url),
-        )
-        assertTrue(details.note!!.contains("could not be reached"))
-        assertTrue(details.note!!.contains("subreddit was not resolved"))
     }
 }

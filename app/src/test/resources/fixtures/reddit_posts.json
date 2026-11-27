@@ -1,0 +1,440 @@
+{
+ "text": {
+  "data": {
+   "postsInfoByIds": [
+    {
+     "__typename": "SubredditPost",
+     "id": "t3_1aaaaa1",
+     "postTitle": "TIFU by writing a text post for a test",
+     "createdAt": "2026-11-26T21:52:32.212000+0000",
+     "score": 105,
+     "commentCount": 14,
+     "isNsfw": false,
+     "isSelfPost": true,
+     "url": "https://www.reddit.com/r/tifu/comments/1aaaaa1/tifu_by_writing_a_text_post_for_a_test/",
+     "domain": "self.tifu",
+     "permalink": "/r/tifu/comments/1aaaaa1/tifu_by_writing_a_text_post_for_a_test/",
+     "authorInfo": {
+      "name": "example_user"
+     },
+     "subreddit": {
+      "name": "tifu",
+      "styles": {
+       "icon": "https://styles.redditmedia.com/t5_2to41/styles/communityIcon_gznj8kdgrjra1.png?width=64&frame=1&auto=webp&s=3389d2b4466e0706f9f1945d2ce3e947cbb997f6"
+      }
+     },
+     "flair": {
+      "text": "M"
+     },
+     "content": {
+      "html": "Today, this is the body of a text post.\n\nIt has a second paragraph.",
+      "markdown": "Today, this is the body of a **text post**.\n\nIt has a second paragraph."
+     },
+     "media": null,
+     "gallery": null,
+     "crosspostRoot": null
+    }
+   ]
+  }
+ },
+ "image": {
+  "data": {
+   "postsInfoByIds": [
+    {
+     "__typename": "SubredditPost",
+     "id": "t3_1x1pjzw",
+     "postTitle": "She’s 2 years old! 🎉",
+     "createdAt": "2026-10-09T16:14:29.443000+0000",
+     "score": 247,
+     "commentCount": 15,
+     "isNsfw": false,
+     "isSelfPost": false,
+     "url": "https://i.redd.it/tbq8zdb1vguh1.jpeg",
+     "domain": "i.redd.it",
+     "permalink": "/r/aww/comments/1x1pjzw/shes_2_years_old/",
+     "authorInfo": {
+      "name": "example_user"
+     },
+     "subreddit": {
+      "name": "aww",
+      "styles": {
+       "icon": "https://styles.redditmedia.com/t5_2qh1o/styles/communityIcon_uz6ge49x9h6e1.png?width=64&frame=1&auto=webp&s=9ea737d382b5ba17319c3cc5f6b80474a13a488f"
+      }
+     },
+     "flair": null,
+     "content": null,
+     "media": {
+      "typeHint": "IMAGE",
+      "still": {
+       "source": {
+        "url": "https://preview.redd.it/tbq8zdb1vguh1.jpeg?auto=webp&s=c582bb9c93b942ed76c1481e31b953b619cb6021",
+        "dimensions": {
+         "height": 1641,
+         "width": 1206
+        }
+       }
+      },
+      "streaming": null,
+      "packagedMedia": null,
+      "animated": null
+     },
+     "gallery": null,
+     "crosspostRoot": null
+    }
+   ]
+  }
+ },
+ "gallery": {
+  "data": {
+   "postsInfoByIds": [
+    {
+     "__typename": "SubredditPost",
+     "id": "t3_1eigbzg",
+     "postTitle": "Found this baby turtle in our garden. Gave it a stick. Teenage mutant ninja turtle initiation begins today.",
+     "createdAt": "2024-08-02T17:43:32.541000+0000",
+     "score": 185,
+     "commentCount": 16,
+     "isNsfw": false,
+     "isSelfPost": false,
+     "url": "https://www.reddit.com/gallery/1eigbzg",
+     "domain": "reddit.com",
+     "permalink": "/r/aww/comments/1eigbzg/found_this_baby_turtle_in_our_garden_gave_it_a/",
+     "authorInfo": {
+      "name": "example_user"
+     },
+     "subreddit": {
+      "name": "aww",
+      "styles": {
+       "icon": "https://styles.redditmedia.com/t5_2qh1o/styles/communityIcon_uz6ge49x9h6e1.png?width=64&frame=1&auto=webp&s=9ea737d382b5ba17319c3cc5f6b80474a13a488f"
+      }
+     },
+     "flair": null,
+     "content": null,
+     "media": null,
+     "gallery": {
+      "items": [
+       {
+        "media": {
+         "url": "https://i.redd.it/e7v8sothfagd1.jpg",
+         "width": 1169,
+         "height": 1309
+        }
+       },
+       {
+        "media": {
+         "url": "https://i.redd.it/4cicxothfagd1.jpg",
+         "width": 1169,
+         "height": 1294
+        }
+       }
+      ]
+     },
+     "crosspostRoot": null
+    }
+   ]
+  }
+ },
+ "video": {
+  "data": {
+   "postsInfoByIds": [
+    {
+     "__typename": "SubredditPost",
+     "id": "t3_1uz79k3",
+     "postTitle": "She’s enjoying the summer breeze [OC]",
+     "createdAt": "2026-07-17T18:03:16.834000+0000",
+     "score": 73,
+     "commentCount": 10,
+     "isNsfw": false,
+     "isSelfPost": false,
+     "url": "https://v.redd.it/8u59jcvuxtdh1",
+     "domain": "v.redd.it",
+     "permalink": "/r/aww/comments/1uz79k3/shes_enjoying_the_summer_breeze_oc/",
+     "authorInfo": {
+      "name": "example_user"
+     },
+     "subreddit": {
+      "name": "aww",
+      "styles": {
+       "icon": "https://styles.redditmedia.com/t5_2qh1o/styles/communityIcon_uz6ge49x9h6e1.png?width=64&frame=1&auto=webp&s=9ea737d382b5ba17319c3cc5f6b80474a13a488f"
+      }
+     },
+     "flair": null,
+     "content": null,
+     "media": {
+      "typeHint": "VIDEO",
+      "still": {
+       "source": {
+        "url": "https://external-preview.redd.it/NG4wNjBpcnV4dGRoMdQqmHkdc8VnKxXpXRKk_w_FM2SWI08gkBzSPUTOCnDs.png?format=pjpg&auto=webp&s=27c03affdf4ac5742c203d6a9057b5582f95d4bc",
+        "dimensions": {
+         "height": 1920,
+         "width": 1080
+        }
+       }
+      },
+      "streaming": {
+       "hlsUrl": "https://v.redd.it/8u59jcvuxtdh1/HLSPlaylist.m3u8?sig=example",
+       "dashUrl": "https://v.redd.it/8u59jcvuxtdh1/DASHPlaylist.mpd?sig=example",
+       "dimensions": {
+        "height": 1920,
+        "width": 1080
+       },
+       "duration": 40,
+       "isGif": false
+      },
+      "packagedMedia": {
+       "muxedMp4s": {
+        "recommended": {
+         "url": "https://packaged-media.redd.it/8u59jcvuxtdh1/muxed-medium.mp4?sig=example"
+        }
+       }
+      },
+      "animated": null
+     },
+     "gallery": null,
+     "crosspostRoot": null
+    }
+   ]
+  }
+ },
+ "gif": {
+  "data": {
+   "postsInfoByIds": [
+    {
+     "__typename": "SubredditPost",
+     "id": "t3_1y68k6u",
+     "postTitle": "I’ve spent the last four years making From The Bunker, a zombie survival game where you manage a bunker. It’s inspired by 60 Seconds! and This War of Mine",
+     "createdAt": "2026-11-26T18:42:10.734000+0000",
+     "score": 156,
+     "commentCount": 18,
+     "isNsfw": false,
+     "isSelfPost": false,
+     "url": "https://i.redd.it/gq5dz1m3504i1.gif",
+     "domain": "i.redd.it",
+     "permalink": "/r/gifs/comments/1y68k6u/ive_spent_the_last_four_years_making_from_the/",
+     "authorInfo": {
+      "name": "example_user"
+     },
+     "subreddit": {
+      "name": "gifs",
+      "styles": {
+       "icon": "https://styles.redditmedia.com/t5_2qt55/styles/communityIcon_n3wnthi7sy331.png?width=64&frame=1&auto=webp&s=f676dc0e6a94049112469ebf218d2cbfd6edc91c"
+      }
+     },
+     "flair": null,
+     "content": null,
+     "media": {
+      "typeHint": "GIFVIDEO",
+      "still": {
+       "source": {
+        "url": "https://preview.redd.it/gq5dz1m3504i1.gif?format=png8&s=cdbf843527e75714a194178c2580103308388bdb",
+        "dimensions": {
+         "height": 540,
+         "width": 960
+        }
+       }
+      },
+      "streaming": null,
+      "packagedMedia": null,
+      "animated": {
+       "mp4_source": {
+        "url": "https://preview.redd.it/gq5dz1m3504i1.gif?width=960&format=mp4&s=ace751cc632570084777937229879b5683919b58",
+        "dimensions": {
+         "height": 540,
+         "width": 960
+        }
+       }
+      }
+     },
+     "gallery": null,
+     "crosspostRoot": null
+    }
+   ]
+  }
+ },
+ "link": {
+  "data": {
+   "postsInfoByIds": [
+    {
+     "__typename": "SubredditPost",
+     "id": "t3_qknx7b",
+     "postTitle": "The moderation team at r/nextfuckinglevel supports the #TeamSeas mass ocean cleanup effort 🌊(more info in the comments)",
+     "createdAt": "2021-11-01T21:10:46.144000+0000",
+     "score": 800,
+     "commentCount": 7,
+     "isNsfw": false,
+     "isSelfPost": false,
+     "url": "https://teamseas.org/",
+     "domain": "teamseas.org",
+     "permalink": "/r/nextfuckinglevel/comments/qknx7b/the_moderation_team_at_rnextfuckinglevel_supports/",
+     "authorInfo": {
+      "name": "example_user"
+     },
+     "subreddit": {
+      "name": "nextfuckinglevel",
+      "styles": {
+       "icon": "https://styles.redditmedia.com/t5_m0bnr/styles/communityIcon_qanlm185crr71.png?width=64&frame=1&auto=webp&s=bd5c0ee330308182dbca39ba860322ba357f6931"
+      }
+     },
+     "flair": {
+      "text": "🌊🌊 NEXTFUCKINGLEVEL 🌊🌊"
+     },
+     "content": null,
+     "media": {
+      "typeHint": null,
+      "still": {
+       "source": {
+        "url": "https://external-preview.redd.it/NFGrDbzpG3G8Wcdv3QObo29rbT_yw61Im_VPImyIlDU.png?auto=webp&s=af08ffb33f07a346b08e340e61e85008b9da6518",
+        "dimensions": {
+         "height": 628,
+         "width": 1200
+        }
+       }
+      },
+      "streaming": null,
+      "packagedMedia": null,
+      "animated": null
+     },
+     "gallery": null,
+     "crosspostRoot": null
+    }
+   ]
+  }
+ },
+ "crosspost": {
+  "data": {
+   "postsInfoByIds": [
+    {
+     "__typename": "SubredditPost",
+     "id": "t3_1rzd8im",
+     "postTitle": "4 stacks of frisbees. She got 0. 10/10 dog",
+     "createdAt": "2026-03-21T00:27:51.582000+0000",
+     "score": 102,
+     "commentCount": 6,
+     "isNsfw": false,
+     "isSelfPost": false,
+     "url": "https://v.redd.it/gpc0e1y3baqg1",
+     "domain": "v.redd.it",
+     "permalink": "/r/BorderCollie/comments/1rzd8im/4_stacks_of_frisbees_she_got_0_1010_dog/",
+     "authorInfo": {
+      "name": "example_user"
+     },
+     "subreddit": {
+      "name": "BorderCollie",
+      "styles": {
+       "icon": "https://styles.redditmedia.com/t5_2sof5/styles/communityIcon_snik8x0em28e1.png?width=64&frame=1&auto=webp&s=fa746c7444cd4f73bd069be37547fc72d9f820d8"
+      }
+     },
+     "flair": null,
+     "content": null,
+     "media": {
+      "typeHint": null,
+      "still": {
+       "source": {
+        "url": "https://external-preview.redd.it/ZdP4it_Qugb9dE2DMZqKcrQPqAxtGrY1IAA50yHO8_4.png?auto=webp&s=bcffd4609e42215e16ee0e91b3d86f82027c692e",
+        "dimensions": {
+         "height": 565,
+         "width": 1080
+        }
+       }
+      },
+      "streaming": null,
+      "packagedMedia": null,
+      "animated": null
+     },
+     "gallery": null,
+     "crosspostRoot": {
+      "post": {
+       "__typename": "SubredditPost",
+       "id": "t3_1rzbsld",
+       "postTitle": "4 stacks of frisbees. She got 0. 10/10 dog",
+       "createdAt": "2026-03-20T23:26:46.417000+0000",
+       "score": 618,
+       "commentCount": 25,
+       "isNsfw": false,
+       "isSelfPost": false,
+       "url": "https://v.redd.it/gpc0e1y3baqg1",
+       "domain": "v.redd.it",
+       "permalink": "/r/aww/comments/1rzbsld/4_stacks_of_frisbees_she_got_0_1010_dog/",
+       "authorInfo": {
+        "name": "example_user"
+       },
+       "subreddit": {
+        "name": "aww",
+        "styles": {
+         "icon": "https://styles.redditmedia.com/t5_2qh1o/styles/communityIcon_uz6ge49x9h6e1.png?width=64&frame=1&auto=webp&s=9ea737d382b5ba17319c3cc5f6b80474a13a488f"
+        }
+       },
+       "flair": null,
+       "content": null,
+       "media": {
+        "typeHint": "VIDEO",
+        "still": {
+         "source": {
+          "url": "https://external-preview.redd.it/azE1OHlkdjNiYXFnMZEJDbhyLGgqdu1uOzJfUXNQ_VP0guBuD581dka3T8Un.png?format=pjpg&auto=webp&s=60e37821a0844ab314ed3c75a3a621f6ef2d68a5",
+          "dimensions": {
+           "height": 1920,
+           "width": 1080
+          }
+         }
+        },
+        "streaming": {
+         "hlsUrl": "https://v.redd.it/gpc0e1y3baqg1/HLSPlaylist.m3u8?sig=example",
+         "dashUrl": "https://v.redd.it/gpc0e1y3baqg1/DASHPlaylist.mpd?sig=example",
+         "dimensions": {
+          "height": 1920,
+          "width": 1080
+         },
+         "duration": 18,
+         "isGif": false
+        },
+        "packagedMedia": {
+         "muxedMp4s": {
+          "recommended": {
+           "url": "https://packaged-media.redd.it/gpc0e1y3baqg1/muxed-medium.mp4?sig=example"
+          }
+         }
+        },
+        "animated": null
+       },
+       "gallery": null,
+       "crosspostRoot": null
+      }
+     }
+    }
+   ]
+  }
+ },
+ "profile": {
+  "data": {
+   "postsInfoByIds": [
+    {
+     "__typename": "ProfilePost",
+     "id": "t3_1xiupm0",
+     "postTitle": "About that login screen",
+     "createdAt": "2026-10-29T20:08:37.416000+0000",
+     "score": 0,
+     "commentCount": 539,
+     "isNsfw": false,
+     "isSelfPost": true,
+     "url": "https://www.reddit.com/r/u_spez/comments/1xiupm0/about_that_login_screen/",
+     "domain": "self.spez",
+     "permalink": "/user/spez/comments/1xiupm0/about_that_login_screen/",
+     "authorInfo": {
+      "name": "example_user"
+     },
+     "profile": {
+      "name": "u_spez"
+     },
+     "flair": null,
+     "content": {
+      "html": "I want to talk about a big change we're making on Reddit: we're going to evolve Reddit to being a primarily logged-in experience.\nThis is a big change for Reddit, where we've allowed logged-out access to basically all of Reddit for the last two decades. And I don’t know about you, but as someone whose life has been defined by the open internet, it’s a big change for me. But I've come to the conclu",
+      "markdown": "I want to talk about a big change we're making on Reddit: we're going to evolve Reddit to being a primarily logged-in experience.\n\nThis is a big change for Reddit, where we've allowed logged-out access to basically all of Reddit for the last two decades. And I don’t know about you, but as someone whose life has been defined by the open internet, it’s a big change for me. But I've come to the concl"
+     },
+     "media": null,
+     "gallery": null,
+     "crosspostRoot": null
+    }
+   ]
+  }
+ }
+}

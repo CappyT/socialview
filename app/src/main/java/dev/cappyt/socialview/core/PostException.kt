@@ -1,7 +1,7 @@
 package dev.cappyt.socialview.core
 
 enum class ErrorKind(val title: String) {
-    NOT_FOUND("Post not found"),
+    NOT_FOUND("Not found"),
     NETWORK("Network error"),
     UNEXPECTED("Unexpected response"),
     UNSUPPORTED("Unsupported link"),

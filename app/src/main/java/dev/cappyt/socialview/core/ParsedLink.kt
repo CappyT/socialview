@@ -15,8 +15,17 @@ enum class PostKind {
     VIDEO,
 }
 
+data class ProfileLink(
+    val platform: Platform,
+    val username: String,
+    val browserUrl: String,
+    val originalUrl: String,
+)
+
 sealed interface ParsedLink {
     data class Post(val link: PostLink) : ParsedLink
+
+    data class Profile(val link: ProfileLink) : ParsedLink
 
     data class Short(
         val platform: Platform,
